@@ -1,0 +1,2 @@
+kind: generic
+description: The GitHub releases source plugin for daukle. It fetches a producer manifest published as a release asset, caching it before the network is touched and honouring DAUKLE_TOKEN over GITHUB_TOKEN for a private repository.

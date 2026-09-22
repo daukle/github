@@ -1,0 +1,25 @@
+schema = 1
+project = "example/app"
+version = "1.0.0"
+
+[modules]
+
+[sources."forebay/basekit"]
+kind = "github-releases"
+repo = "forebay/basekit"
+version = "5.0.0"
+tag = 7
+
+[plugins]
+fixture = "./plugins/fixture.lua"
+plugin = "./plugins/plugin.lua"
+
+[[consumers]]
+id = "text"
+language = "plaintext"
+file = "deps.txt"
+configuration = "deps"
+
+  [consumers.dependencies."forebay/basekit"]
+  version = "^5.0.0"
+  modules = ["ir"]
