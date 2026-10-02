@@ -1,0 +1,28 @@
+schema = 1
+project = "example/app"
+version = "1.0.0"
+
+[modules]
+
+# The only case that reaches load(). Every other case is a refusal that returns
+# before the fetch, which is how this plugin stayed green for a release in which
+# its one success path did not run at all.
+[sources."example/greeter"]
+kind = "github-releases"
+repo = "daukle/examples"
+version = "2.0.0"
+tag = "greeter-{version}"
+
+[plugins]
+fixture = "./plugins/fixture.lua"
+plugin = "./plugins/plugin.lua"
+
+[[consumers]]
+id = "text"
+language = "npm"
+file = "deps.txt"
+configuration = "deps"
+
+  [consumers.dependencies."example/greeter"]
+  version = "^2.0.0"
+  modules = ["cli"]

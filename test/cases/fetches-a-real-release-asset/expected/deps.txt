@@ -1,0 +1,3 @@
+# begin
+example/greeter cli
+# end

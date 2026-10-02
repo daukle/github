@@ -37,6 +37,12 @@ run_case() {
   for manifest in "$case_dir"/daukle*.toml; do
     manifest_name=$(basename "$manifest")
     sandbox="$work/$name-$manifest_name"
+    # A cache per case, so a case that fetches starts cold. Sharing the ambient
+    # cache hid a real defect: this plugin's only daukle.env call sits inside
+    # the cache callback, so on a warm cache it never runs and a missing env
+    # declaration passes.
+    case_cache="$sandbox.cache"
+    rm -rf "$case_cache"
     rm -rf "$sandbox"
     mkdir -p "$(dirname "$sandbox")"
     cp -R "$case_dir" "$sandbox"
@@ -44,7 +50,7 @@ run_case() {
     cp "$root/plugin.lua" "$sandbox/plugins/plugin.lua"
 
     if [ -f "$case_dir/expect-error.txt" ]; then
-      if (cd "$sandbox" && "$daukle" sync "$manifest_name" >stdout.txt 2>stderr.txt); then
+      if (cd "$sandbox" && DAUKLE_CACHE_DIR="$case_cache" "$daukle" sync "$manifest_name" >stdout.txt 2>stderr.txt); then
         fail "$name/$manifest_name" "expected a failure, got success"
         continue
       fi
@@ -59,14 +65,14 @@ run_case() {
 
     # Twice, because applying twice must equal applying once for every case,
     # not only for the one a test remembered to say it about.
-    if ! (cd "$sandbox" && "$daukle" sync "$manifest_name" >/dev/null 2>&1); then
+    if ! (cd "$sandbox" && DAUKLE_CACHE_DIR="$case_cache" "$daukle" sync "$manifest_name" >/dev/null 2>&1); then
       fail "$name/$manifest_name" "sync failed"
       continue
     fi
     if ! compare_expected "$case_dir" "$sandbox" "$name/$manifest_name (first)"; then
       continue
     fi
-    if ! (cd "$sandbox" && "$daukle" sync "$manifest_name" >/dev/null 2>&1); then
+    if ! (cd "$sandbox" && DAUKLE_CACHE_DIR="$case_cache" "$daukle" sync "$manifest_name" >/dev/null 2>&1); then
       fail "$name/$manifest_name" "second sync failed"
       continue
     fi
