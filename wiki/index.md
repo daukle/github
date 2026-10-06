@@ -11,7 +11,7 @@ github = "daukle/github@^1"
 
 [sources."example/greeter"]
 kind = "github-releases"
-repo = "daukle/examples"
+repo = "daukle/github"
 version = "2.0.0"
 tag = "greeter-{version}"
 ```

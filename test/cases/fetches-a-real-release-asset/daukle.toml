@@ -9,7 +9,7 @@ version = "1.0.0"
 # its one success path did not run at all.
 [sources."example/greeter"]
 kind = "github-releases"
-repo = "daukle/examples"
+repo = "daukle/github"
 version = "2.0.0"
 tag = "greeter-{version}"
 

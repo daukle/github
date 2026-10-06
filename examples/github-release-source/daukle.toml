@@ -10,7 +10,7 @@ version = "1.0.0"
 # differs is only how it arrives.
 [sources."example/greeter"]
 kind = "github-releases"
-repo = "daukle/examples"
+repo = "daukle/github"
 version = "2.0.0"
 tag = "greeter-{version}"
 

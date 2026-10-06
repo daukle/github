@@ -104,10 +104,45 @@ compare_expected() {
   return $ok
 }
 
+#
+# The published release asset and the file it was built from. These used to live
+# in two repositories, where they could legitimately differ and the example's own
+# ABOUT.md said the comparison was deliberately not made; in one repository a
+# release and its source move in the same commit, so a difference is a defect.
+# Same shape, and the same reason, as core's wrapper_example_matches_wrapper.
+check_release_asset() {
+  label=release-asset-matches-producer
+  committed="$root/examples/github-release-source/producer/daukle.toml"
+  # Derived rather than written here: the example declares `tag = "greeter-{version}"`,
+  # so a hardcoded tag would keep checking the old release after a version bump.
+  tag=$(sed -n 's/^version = "\(.*\)"$/\1/p' "$committed" | head -1)
+  url="https://github.com/daukle/github/releases/download/greeter-$tag/daukle.toml"
+  downloaded="$work/$label.toml"
+  mkdir -p "$work"
+
+  if ! curl -fsSL -o "$downloaded" "$url"; then
+    fail "$label" "could not fetch $url"
+    return
+  fi
+  if ! cmp -s "$downloaded" "$committed"; then
+    fail "$label" "the published asset differs from producer/daukle.toml"
+    diff -u "$committed" "$downloaded" >&2 || true
+    return
+  fi
+  passed=$((passed + 1))
+}
+
 rm -rf "$work"
 for case_dir in "$root"/test/cases/*/; do
   run_case "${case_dir%/}"
 done
+
+# Gated with the examples, because it is the same real network fetch they are.
+if [ "${DAUKLE_EXAMPLE_E2E:-}" = "1" ]; then
+  check_release_asset
+else
+  echo "skip release-asset-matches-producer: set DAUKLE_EXAMPLE_E2E=1"
+fi
 
 echo "$passed passed, $failed failed"
 [ "$failed" -eq 0 ]

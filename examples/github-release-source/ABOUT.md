@@ -17,10 +17,10 @@ real assertion is.
 ## What to look at
 
 **`[sources."example/greeter"]` names a repository and a version, not a URL.** The plugin builds
-`https://github.com/daukle/examples/releases/download/greeter-2.0.0/daukle.toml` from `repo`,
+`https://github.com/daukle/github/releases/download/greeter-2.0.0/daukle.toml` from `repo`,
 `tag` and the default asset name. `tag = "greeter-{version}"` is a template because a release tag
-is the producer's naming choice, not daukle's: this repository holds four examples and could not
-tag one of them `2.0.0`.
+is the producer's naming choice, not daukle's: this repository also releases the plugin as `1.0.0`
+and could not tag the manifest `2.0.0` beside it.
 
 **The asset name defaults to `daukle.toml` and is not written here.** A `source` block naming
 `asset = "daukle.json"` fails at parse time with a message naming the format, which is the one
@@ -62,7 +62,9 @@ example proves its own claim, and the file here is the one the release is built 
 ## What this example deliberately does not claim
 
 **It does not exercise the cross-org case, which is the only genuinely untested one.** The producer
-here is `daukle/examples` and so is the consumer: the same org publishes the manifest and reads it.
+and the consumer are now the same REPOSITORY, which is weaker still than when they were two
+repositories of one org: the same release this example fetches is published from the directory
+beside it.
 The case that has never run is a producer owned by someone who did not write the consumer, where
 the manifest's author cannot be asked to change it. Nothing here covers that, and using our own
 release looks identical to using a stranger's right up to the point where it does not.
