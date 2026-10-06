@@ -1,0 +1,26 @@
+name: Publish the producer manifest
+
+# The producer manifest this repository's own example FETCHES, published from the
+# repository that consumes it. It used to come from daukle/examples, which is
+# being deleted, and a deleted repository takes its releases with it.
+#
+# `gh release upload` names an asset by its basename, so this publishes as
+# `daukle.toml` and the source plugin's default asset name still resolves.
+on:
+  push:
+    tags:
+      - 'greeter-*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    uses: intisy/workflows/.github/workflows/publish.yml@main
+    with:
+      targets: none
+      toolchains: none
+      release_assets: 'examples/github-release-source/producer/daukle.toml'
+      release_notes_from_commit: true
+    secrets:
+      envPAT: ${{ secrets.PAT }}

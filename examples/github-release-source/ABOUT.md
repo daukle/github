@@ -39,12 +39,25 @@ pins the bytes.**
 
 ## How CI checks this example
 
-No `task.txt`, so nothing is run: `test/run.sh` syncs twice and compares `expected/package.json`
-byte for byte. The second sync is the assertion that applying twice equals applying once.
+The `console` block above is the assertion: core's `tools/run-examples.sh` runs each `$ ` line and
+requires the remaining lines in the output. It then syncs a second time and compares every file in
+`expected/` byte for byte, which is the claim that applying twice equals applying once.
 
 **It does a real network fetch every run**, unlike most examples here, whose network traffic is
 plugin acquisition alone. That is why it carries `needs-tools` and is skipped unless
 `DAUKLE_EXAMPLE_E2E=1` is set; CI sets it on every runner. A release deleted or retagged breaks this example and nothing else.
+
+## The release it fetches is published from HERE
+
+`producer/daukle.toml` beside this example is the file the release carries, and
+`.github/workflows/publish-producer.yml` publishes it on a `greeter-*` tag. The two used to sit in
+different repositories, where the published asset and any committed copy could legitimately differ;
+in one repository a release and the file it was built from move together, so
+`test/cases/release-asset-matches-producer` compares them and a difference is a defect.
+
+**`daukle/npm`'s `npm-dependency-ledger` holds the same bytes**, because the pair's whole claim is
+that one manifest arrives two ways. Nothing compares the two copies across repositories: each
+example proves its own claim, and the file here is the one the release is built from.
 
 ## What this example deliberately does not claim
 
