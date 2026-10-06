@@ -1,10 +1,14 @@
 name: Publish
 
-# A tag push is the whole release mechanism.
+# A tag push is the whole release mechanism, and this repository publishes two
+# unrelated things: the plugin, tagged with its own version, and the producer
+# manifest its example fetches, tagged `greeter-*` by publish-producer.yml. An
+# unrestricted `*` here would have published plugin.lua under the producer's tag,
+# at a URL that cannot be withdrawn.
 on:
   push:
     tags:
-      - '*'
+      - '[0-9]+.[0-9]+.[0-9]+'
 
 permissions:
   contents: write
