@@ -1,0 +1,1 @@
+args: release create v1.0.0 --repo daukle/no-such-repository-probe --notes [example/greeter 1.0.0] greeter.jar

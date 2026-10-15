@@ -10,7 +10,7 @@ version = "5.0.0"
 
 [plugins]
 fixture = "./plugins/fixture.lua"
-plugin = "./plugins/plugin.lua"
+plugin = "./plugins"
 
 [[consumers]]
 id = "text"
