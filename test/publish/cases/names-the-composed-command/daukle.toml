@@ -1,0 +1,21 @@
+schema = 1
+project = "example/greeter"
+version = "1.0.0"
+
+[modules]
+
+[toolchains.fixture]
+
+# A repository that does not exist, which is what makes this case safe to run on
+# every runner: the argv is asserted from daukle's own --verbose trace, printed
+# before the exec, and the call then fails at the API with nothing to write to.
+[publish.github-release]
+from = "fixture"
+repo = "daukle/no-such-repository-probe"
+tag = "v{version}"
+files = ["greeter.jar"]
+tokenEnv = "DAUKLE_PUBLISH_PROBE_TOKEN"
+
+[plugins]
+toolchain = "./fixtures/toolchain.lua"
+publisher = "./plugins"

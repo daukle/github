@@ -1,0 +1,1 @@
+publish.github-release.repo must be "owner/name", not "greeter"
