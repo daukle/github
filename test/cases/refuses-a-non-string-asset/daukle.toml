@@ -12,7 +12,7 @@ asset = 7
 
 [plugins]
 fixture = "./plugins/fixture.lua"
-plugin = "./plugins/plugin.lua"
+plugin = "./plugins"
 
 [[consumers]]
 id = "text"

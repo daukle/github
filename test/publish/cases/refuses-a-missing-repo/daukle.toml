@@ -1,0 +1,15 @@
+schema = 1
+project = "example/greeter"
+version = "1.0.0"
+
+[modules]
+
+[toolchains.fixture]
+
+[publish.github-release]
+from = "fixture"
+files = ["greeter.jar"]
+
+[plugins]
+toolchain = "./fixtures/toolchain.lua"
+publisher = "./plugins"
