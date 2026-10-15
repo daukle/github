@@ -48,6 +48,7 @@ run_case() {
     cp -R "$case_dir" "$sandbox"
     rm -rf "$sandbox/expected" "$sandbox/expect-error.txt"
     cp "$root/plugin.lua" "$sandbox/plugins/plugin.lua"
+    cp -R "$root/lib" "$sandbox/plugins/lib"
 
     if [ -f "$case_dir/expect-error.txt" ]; then
       if (cd "$sandbox" && DAUKLE_CACHE_DIR="$case_cache" "$daukle" sync "$manifest_name" >stdout.txt 2>stderr.txt); then
