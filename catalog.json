@@ -1,0 +1,6 @@
+{
+  "detect": [],
+  "replaces": {
+    "gradle": { "plugins": ["com.github.breadmoirai.github-release"] }
+  }
+}
