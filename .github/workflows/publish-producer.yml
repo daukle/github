@@ -1,8 +1,7 @@
 name: Publish the producer manifest
 
-# The producer manifest this repository's own example FETCHES, published from the
-# repository that consumes it. It used to come from daukle/examples, which is
-# being deleted, and a deleted repository takes its releases with it.
+# The producer manifest the fetches-a-real-release-asset case FETCHES, published
+# from the repository whose test reads it.
 #
 # `gh release upload` names an asset by its basename, so this publishes as
 # `daukle.toml` and the source plugin's default asset name still resolves.
@@ -20,7 +19,7 @@ jobs:
     with:
       targets: none
       toolchains: none
-      release_assets: 'examples/github-release-source/producer/daukle.toml'
+      release_assets: 'test/producer/daukle.toml'
       release_notes_from_commit: true
     secrets:
       envPAT: ${{ secrets.PAT }}

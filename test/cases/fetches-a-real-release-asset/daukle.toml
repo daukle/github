@@ -17,12 +17,8 @@ tag = "greeter-{version}"
 fixture = "./plugins/fixture.lua"
 plugin = "./plugins"
 
-[[consumers]]
-id = "text"
-language = "npm"
-file = "deps.txt"
-configuration = "deps"
+[toolchains.npm]
 
-  [consumers.dependencies."example/greeter"]
+  [toolchains.npm.dependencies."example/greeter"]
   version = "^2.0.0"
   modules = ["cli"]
