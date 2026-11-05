@@ -103,5 +103,5 @@ implementation detail, and nothing a user writes names it.
 
 The keys, their defaults, the type errors they raise and the token precedence live in this
 repository's `wiki/index.md`, which is rendered at <https://daukle.github.io/guide/>.
-`AUTHORING.md` is the measured detail for anyone changing the plugin, and `examples/` holds a
-project that resolves a real published release.
+`AUTHORING.md` is the measured detail for anyone changing the plugin, and
+`test/cases/fetches-a-real-release-asset` resolves a real published release.

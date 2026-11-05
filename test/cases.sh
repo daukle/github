@@ -106,15 +106,12 @@ compare_expected() {
 }
 
 #
-# The published release asset and the file it was built from. These used to live
-# in two repositories, where they could legitimately differ and the example's own
-# ABOUT.md said the comparison was deliberately not made; in one repository a
+# The published release asset and the file it was built from. In one repository a
 # release and its source move in the same commit, so a difference is a defect.
-# Same shape, and the same reason, as core's wrapper_example_matches_wrapper.
 check_release_asset() {
   label=release-asset-matches-producer
-  committed="$root/examples/github-release-source/producer/daukle.toml"
-  # Derived rather than written here: the example declares `tag = "greeter-{version}"`,
+  committed="$root/test/producer/daukle.toml"
+  # Derived rather than written here: the fetch case declares `tag = "greeter-{version}"`,
   # so a hardcoded tag would keep checking the old release after a version bump.
   tag=$(sed -n 's/^version = "\(.*\)"$/\1/p' "$committed" | head -1)
   url="https://github.com/daukle/github/releases/download/greeter-$tag/daukle.toml"
@@ -126,7 +123,7 @@ check_release_asset() {
     return
   fi
   if ! cmp -s "$downloaded" "$committed"; then
-    fail "$label" "the published asset differs from producer/daukle.toml"
+    fail "$label" "the published asset differs from test/producer/daukle.toml"
     diff -u "$committed" "$downloaded" >&2 || true
     return
   fi

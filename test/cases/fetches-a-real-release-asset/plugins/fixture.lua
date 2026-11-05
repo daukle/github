@@ -1,16 +1,13 @@
-daukle.plugin{ api = 1, uses = { "region" } }
+daukle.plugin{ api = 1, uses = {} }
 
---- Named "npm" because this case resolves a REAL published producer manifest
---- and that manifest's module carries an npm block. The language is still a
---- fixture: what it renders is the project and module, so the assertion stays
---- on what the source plugin fetched rather than on npm's formatting.
-daukle.language{
+daukle.toolchain{
   name = "npm",
-  apply = function(consumer, resolved, text)
+  generate = function(toolchain)
     local lines = {}
-    for index = 1, #resolved do
-      lines[index] = resolved[index].project .. " " .. resolved[index].module
+    for index = 1, #toolchain.dependencies do
+      local dependency = toolchain.dependencies[index]
+      lines[index] = dependency.project .. " " .. dependency.module
     end
-    return daukle.region(text, "# begin", "# end", table.concat(lines, "\n"))
+    return { ["deps.txt"] = table.concat(lines, "\n") .. "\n" }
   end,
 }
