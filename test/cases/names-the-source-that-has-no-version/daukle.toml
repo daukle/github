@@ -12,12 +12,8 @@ repo = "forebay/basekit"
 fixture = "./plugins/fixture.lua"
 plugin = "./plugins"
 
-[[consumers]]
-id = "text"
-language = "plaintext"
-file = "deps.txt"
-configuration = "deps"
+[toolchains.plaintext]
 
-  [consumers.dependencies."forebay/basekit"]
+  [toolchains.plaintext.dependencies."forebay/basekit"]
   version = "^5.0.0"
   modules = ["ir"]
